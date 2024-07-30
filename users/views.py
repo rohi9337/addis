@@ -33,3 +33,19 @@ def send_verification_email(request, user):
         'token': default_token_generator.make_token(user),
     })
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.email_verified = True
+        user.save()
+        login(request, user)
+        return redirect('home')  # Make sure 'home' URL is defined
+    else:
+        return render(request, 'users/account_activation_invalid.html')
