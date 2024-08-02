@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserLoginForm
 from .models import CustomUser
 
 def register(request):
@@ -46,6 +46,29 @@ def activate(request, uidb64, token):
         user.email_verified = True
         user.save()
         login(request, user)
-        return redirect('home')  # Make sure 'home' URL is defined
+        return redirect('home')
     else:
         return render(request, 'users/account_activation_invalid.html')
+
+def registration_complete(request):
+    return render(request, 'users/registration_complete.html')
+
+def custom_login(request):
+    if request.method == 'POST':
+        form = CustomUserLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                form.add_error(None, 'Invalid email or password')
+    else:
+        form = CustomUserLoginForm()
+    return render(request, 'users/login.html', {'form': form})
+
+def custom_logout(request):
+    logout(request)
+    return redirect('home')

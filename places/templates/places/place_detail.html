@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ place.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'places/styles.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <div>My Website</div>
+        <div>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'place_list' %}">Places</a>
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>{{ place.name }}</h2>
+        <p>{{ place.description }}</p>
+        <p>Location: {{ place.location }}</p>
+        <p>Price per night: ${{ place.price_per_night }}</p>
+        <p>Available from: {{ place.available_from }}</p>
+        <p>Available to: {{ place.available_to }}</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Places in Addis Ababa</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'places/styles.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <div>My Website</div>
+        <div>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'place_list' %}">Places</a>
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Places in Addis Ababa</h2>
+        <ul>
+            {% for place in places %}
+                <li>
+                    <a href="{% url 'place_detail' place.pk %}">{{ place.name }}</a>
+                    <p>{{ place.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
