@@ -3,22 +3,21 @@ from .models import Place
 from .forms import PlaceForm
 
 def index(request):
-    return render(request, 'places/index.html')
-
-def place_list(request):
     places = Place.objects.all()
-    return render(request, 'places/place_list.html', {'places': places})
+    context = {'places': places}
+    return render(request, 'places/index.html', context)
 
 def place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
-    return render(request, 'places/place_detail.html', {'place': place})
+    context = {'place': place}
+    return render(request, 'places/place_detail.html', context)
 
 def place_new(request):
     if request.method == 'POST':
         form = PlaceForm(request.POST)
         if form.is_valid():
             place = form.save()
-            return redirect('place_detail', pk=place.pk)
+            return redirect('places:index')
     else:
         form = PlaceForm()
     return render(request, 'places/place_form.html', {'form': form})

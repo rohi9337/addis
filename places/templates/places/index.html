@@ -5,14 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Places in Addis Ababa</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'places/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #003580;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .header .logo {
+            font-size: 24px; /* Reduced font size */
+            font-weight: bold;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px; /* Reduced margin */
+            font-size: 14px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .main-content {
+            width: 90%;
+            max-width: 1000px; /* Reduced max-width */
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Reduced box-shadow */
+            border-radius: 8px;
+        }
+        .main-content h2 {
+            font-size: 30px; /* Reduced font size */
+            margin-bottom: 20px;
+            color: #003580;
+            text-align: center;
+        }
+        .main-content p {
+            font-size: 16px; /* Reduced font size */
+            color: #333;
+            margin-bottom: 20px; /* Reduced margin */
+            text-align: center;
+        }
+        .place-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Reduced gap */
+            justify-content: center;
+        }
+        .place-card {
+            flex: 1 1 calc(30% - 15px); /* Reduced size */
+            box-sizing: border-box;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Reduced box-shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .place-card:hover {
+            transform: translateY(-5px); /* Reduced hover effect */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Reduced box-shadow */
+        }
+        .place-card .image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Aspect Ratio: 16:9 */
+            background-color: #ddd;
+        }
+        .place-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .place-card h3 {
+            font-size: 18px; /* Reduced font size */
+            margin: 10px 0; /* Reduced margin */
+            color: #003580;
+            text-align: center;
+        }
+        .place-card p {
+            margin: 5px 0;
+            font-size: 14px; /* Reduced font size */
+            text-align: center;
+        }
+        .place-card .location {
+            color: #666;
+        }
+        .place-card .price {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .place-card .description {
+            color: #555;
+            margin: 10px 10px; /* Reduced margin */
+            height: 50px; /* Reduced height */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .place-card a {
+            display: block;
+            text-align: center;
+            padding: 8px; /* Reduced padding */
+            margin: 10px 15px; /* Reduced margin */
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .place-card a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    
 </head>
 <body>
-    <div class="navbar">
-        <div>My Website</div>
+    <div class="header">
+        <div class="logo">Places in Addis Ababa</div>
         <div>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'place_list' %}">Places</a>
+            <a href="{% url 'places:index' %}">Home</a>
+            <a href="{% url 'places:place_new' %}">Add Place</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'users:logout' %}">Logout</a>
             {% else %}
@@ -21,9 +145,23 @@
             {% endif %}
         </div>
     </div>
-    <div class="container">
+    <div class="main-content">
         <h2>Welcome to Places in Addis Ababa</h2>
         <p>Discover amazing places to stay, eat, and visit in Addis Ababa.</p>
+        <div class="place-container">
+            {% for place in places %}
+                <div class="place-card">
+                    <div class="image-wrapper">
+                        <img src="{{ place.picture.url }}" alt="{{ place.name }}">
+                    </div>
+                    <h3>{{ place.name }}</h3>
+                    <p class="location">{{ place.location }}</p>
+                    <p class="price">${{ place.price_per_night }}</p>
+                    <p class="description">{{ place.description }}</p>
+                    <a href="{% url 'places:place_detail' place.pk %}">View Details</a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </body>
 </html>

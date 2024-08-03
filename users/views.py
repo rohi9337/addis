@@ -1,3 +1,4 @@
+# views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sites.shortcuts import get_current_site
@@ -43,10 +44,10 @@ def activate(request, uidb64, token):
 
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
-        user.email_verified = True
+        user.email_verified = True  # Assuming you have this field in your model
         user.save()
         login(request, user)
-        return redirect('home')
+        return redirect('home')  # Redirect to the home page after activation
     else:
         return render(request, 'users/account_activation_invalid.html')
 
@@ -62,7 +63,7 @@ def custom_login(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('home')  # Redirect to the home page after login
             else:
                 form.add_error(None, 'Invalid email or password')
     else:
@@ -71,4 +72,4 @@ def custom_login(request):
 
 def custom_logout(request):
     logout(request)
-    return redirect('home')
+    return redirect('home')  # Redirect to the home page after logout

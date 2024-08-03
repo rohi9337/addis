@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Place</title>
+    <title>Add Place - Places in Addis Ababa</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'places/styles.css' %}">
 </head>
@@ -11,18 +11,21 @@
     <div class="navbar">
         <div>My Website</div>
         <div>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'place_list' %}">Places</a>
-            <a href="{% url 'register' %}">Register</a>
-            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'places:index' %}">Home</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'users:register' %}">Register</a>
+                <a href="{% url 'users:login' %}">Login</a>
+            {% endif %}
         </div>
     </div>
     <div class="container">
-        <h2>Add New Place</h2>
-        <form method="post">
+        <h2>Add a New Place</h2>
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Save</button>
+            <button type="submit">Add Place</button>
         </form>
     </div>
 </body>
