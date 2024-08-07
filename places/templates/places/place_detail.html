@@ -5,25 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ place.name }}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'places/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #003580;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .navbar div {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .container img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .container h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #003580;
+        }
+        .container p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .container p strong {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar">
-        <div>My Website</div>
+        <div>Places in Addis Ababa</div>
         <div>
-            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'places:index' %}">Home</a>
             <a href="{% url 'places:index' %}">Places</a>
-            <a href="{% url 'users:register' %}">Register</a>
-            <a href="{% url 'users:login' %}">Login</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'users:register' %}">Register</a>
+                <a href="{% url 'users:login' %}">Login</a>
+            {% endif %}
         </div>
     </div>
     <div class="container">
+        <img src="{{ place.picture.url }}" alt="{{ place.name }}">
         <h2>{{ place.name }}</h2>
-        <p>{{ place.description }}</p>
-        <p>Location: {{ place.location }}</p>
-        <p>Price per night: ${{ place.price_per_night }}</p>
-        <p>Available from: {{ place.available_from }}</p>
-        <p>Available to: {{ place.available_to }}</p>
+        <p><strong>Description:</strong> {{ place.description }}</p>
+        <p><strong>Location:</strong> {{ place.location }}</p>
+        <p><strong>Price per night:</strong> ${{ place.price }}</p>
+        
     </div>
 </body>
 </html>

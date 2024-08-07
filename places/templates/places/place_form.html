@@ -1,15 +1,105 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Place - Places in Addis Ababa</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'places/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #003580;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .navbar div {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px; /* Reduced width for minimized form card */
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .container h2 {
+            font-size: 24px; /* Adjusted heading size */
+            margin-bottom: 20px;
+            color: #003580;
+        }
+        .form-group {
+            margin-bottom: 15px; /* Reduced spacing */
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px; /* Adjusted label size */
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 22px); /* Shorter width */
+            padding: 8px; /* Reduced padding */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px; /* Adjusted font size */
+        }
+        .form-group input,
+        .form-group select {
+            border-right: 3px solid #007bff; /* Right border */
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px; /* Taller textarea */
+        }
+        .form-group .form-error {
+            color: red;
+            font-size: 12px; /* Adjusted error text size */
+            margin-top: 5px;
+        }
+        .form-group .form-error:empty {
+            display: none;
+        }
+        .container form button {
+            width: 100%;
+            padding: 10px; /* Reduced button padding */
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px; /* Adjusted button font size */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .container form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar">
-        <div>My Website</div>
+        <div>Places in Addis Ababa</div>
         <div>
             <a href="{% url 'places:index' %}">Home</a>
             {% if user.is_authenticated %}
@@ -24,9 +114,222 @@
         <h2>Add a New Place</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Name:</label>
+                {{ form.name }}
+                <div class="form-error">{{ form.name.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description:</label>
+                {{ form.description }}
+                <div class="form-error">{{ form.description.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.location.id_for_label }}">Location:</label>
+                {{ form.location }}
+                <div class="form-error">{{ form.location.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.price.id_for_label }}">Price:</label>
+                {{ form.price }}
+                <div class="form-error">{{ form.price.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.picture.id_for_label }}">Picture:</label>
+                {{ form.picture }}
+                <div class="form-error">{{ form.picture.errors }}</div>
+            </div> 
             <button type="submit">Add Place</button>
         </form>
     </div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Place - Places in Addis Ababa</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #003580;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .navbar div {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px; /* Reduced width for minimized form card */
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .container h2 {
+            font-size: 24px; /* Adjusted heading size */
+            margin-bottom: 20px;
+            color: #003580;
+        }
+        .form-group {
+            margin-bottom: 15px; /* Reduced spacing */
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px; /* Adjusted label size */
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 22px); /* Shorter width */
+            padding: 8px; /* Reduced padding */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px; /* Adjusted font size */
+        }
+        .form-group input,
+        .form-group select {
+            border-right: 3px solid #007bff; /* Right border */
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px; /* Taller textarea */
+        }
+        .form-group .form-error {
+            color: red;
+            font-size: 12px; /* Adjusted error text size */
+            margin-top: 5px;
+        }
+        .form-group .form-error:empty {
+            display: none;
+        }
+        .container form button {
+            width: 100%;
+            padding: 10px; /* Reduced button padding */
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px; /* Adjusted button font size */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .container form button:hover {
+            background-color: #0056b3;
+        }
+        .image-preview {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>Places in Addis Ababa</div>
+        <div>
+            <a href="{% url 'places:index' %}">Home</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'users:register' %}">Register</a>
+                <a href="{% url 'users:login' %}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container">
+        <h2>Add a New Place</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Name:</label>
+                {{ form.name }}
+                <div class="form-error">{{ form.name.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description:</label>
+                {{ form.description }}
+                <div class="form-error">{{ form.description.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.location.id_for_label }}">Location:</label>
+                {{ form.location }}
+                <div class="form-error">{{ form.location.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.price.id_for_label }}">Price:</label>
+                {{ form.price }}
+                <div class="form-error">{{ form.price.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.picture.id_for_label }}">Picture:</label>
+                {{ form.picture }}
+                <div class="form-error">{{ form.picture.errors }}</div>
+            </div>
+            <div class="image-preview" id="imagePreview">
+                <img src="" alt="Image Preview" class="image-preview__image">
+                <span class="image-preview__default-text">Image Preview</span>
+            </div>
+            <button type="submit">Add Place</button>
+        </form>
+    </div>
+
+    <script>
+        const pictureInput = document.querySelector('input[name="picture"]');
+        const previewContainer = document.getElementById('imagePreview');
+        const previewImage = previewContainer.querySelector('.image-preview__image');
+        const previewDefaultText = previewContainer.querySelector('.image-preview__default-text');
+
+        pictureInput.addEventListener('change', function() {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                previewDefaultText.style.display = "none";
+                previewImage.style.display = "block";
+
+                reader.addEventListener('load', function() {
+                    previewImage.setAttribute('src', this.result);
+                });
+
+                reader.readAsDataURL(file);
+            } else {
+                previewDefaultText.style.display = null;
+                previewImage.style.display = null;
+                previewImage.setAttribute('src', "");
+            }
+        });
+    </script>
 </body>
 </html>

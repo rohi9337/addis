@@ -26,4 +26,6 @@ urlpatterns = [
     path('users/', include('users.urls')),  # Include the users app URLs
     path('', places_views.index, name='home'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
