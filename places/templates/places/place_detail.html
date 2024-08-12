@@ -84,6 +84,10 @@
         <p><strong>Description:</strong> {{ place.description }}</p>
         <p><strong>Location:</strong> {{ place.location }}</p>
         <p><strong>Price per night:</strong> ${{ place.price }}</p>
+
+        <a href="{% url 'places:make_booking' place.id %}" class="book-now">
+            Book Now
+        </a>
         
     </div>
 </body>

@@ -7,6 +7,11 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('email', 'first_name', 'last_name')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget = forms.PasswordInput(attrs={'placeholder': 'Enter Password'})
+        self.fields['password2'].widget = forms.PasswordInput(attrs={'placeholder': 'Confirm Password'})
+
 
 class CustomUserLoginForm(forms.Form):
     email = forms.EmailField()

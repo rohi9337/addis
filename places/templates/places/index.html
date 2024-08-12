@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!-- <!-- <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -171,7 +171,7 @@
 </body>
 </html> -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -318,12 +318,421 @@
                     <div>
                         <h3>{{ place.name }}</h3>
                         <p class="location">{{ place.location }}</p>
-                        <p class="price">${{ place.price_per_night }}</p>
+                        <p class="price">birr{{ place.price }}</p>
                         <p class="description">{{ place.description }}</p>
                         <a href="{% url 'places:place_detail' place.pk %}">View Details</a>
                     </div>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+</body>
+</html>  -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Places in Addis Ababa</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #003580;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .main-content {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            gap: 20px;
+        }
+        .left-column {
+            flex: 1;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .right-column {
+            flex: 2;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .right-column h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #003580;
+            text-align: center;
+        }
+        .right-column .place-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .place-card {
+            flex: 1 1 calc(30% - 15px);
+            box-sizing: border-box;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .place-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .place-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .place-card h3 {
+            font-size: 18px;
+            margin: 0 0 10px;
+            color: #333;
+            text-align: center;
+        }
+        .place-card p {
+            margin: 0;
+            font-size: 14px;
+            text-align: center;
+        }
+        .place-card .location {
+            color: #666;
+        }
+        .place-card .price {
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+        }
+        .place-card .description {
+            color: #555;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .place-card a {
+            display: block;
+            text-align: center;
+            padding: 8px;
+            margin: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .place-card a:hover {
+            background-color: #0056b3;
+        }
+        .view-more {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .view-more a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .view-more a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Places in Addis Ababa</div>
+        <div>
+            <a href="{% url 'places:index' %}">Home</a>
+            <a href="{% url 'places:place_new' %}">Add Place</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'users:register' %}">Register</a>
+                <a href="{% url 'users:login' %}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="left-column">
+            <h3>Search</h3>
+            <form method="get" action="{% url 'places:index' %}">
+                <input type="text" name="q" placeholder="Search by name..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ddd;">
+                <input type="submit" value="Search" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px;">
+            </form>
+        </div>
+        <div class="right-column">
+            <h2>Top 10 Newest Places</h2>
+            <div class="place-container">
+                {% for place in places %}
+                    <div class="place-card">
+                        {% if place.picture %}
+                            <img src="{{ place.picture.url }}" alt="{{ place.name }}">
+                        {% else %}
+                            <div style="height: 200px; width: 100%; display: flex; align-items: center; justify-content: center; background-color: #e0e0e0; border-radius: 8px; margin-bottom: 10px;">
+                                <span>No Image Available</span>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h3>{{ place.name }}</h3>
+                            <p class="location">{{ place.location }}</p>
+                            <p class="price">{{ place.price }} birr</p>
+                            <p class="description">{{ place.description }}</p>
+                            <a href="{% url 'places:place_detail' place.pk %}">View Details</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="view-more">
+                <a href="{% url 'places:index' %}?page=2">View More</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> --> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Places in Addis Ababa</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #003580;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .main-content {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            gap: 20px;
+        }
+        .left-column {
+            flex: 1;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .right-column {
+            flex: 2;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .right-column h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #003580;
+            text-align: center;
+        }
+        .right-column .place-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .place-card {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 10px;
+            gap: 15px;
+        }
+        .place-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .place-card img {
+            flex-shrink: 0;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .place-card .content {
+            flex-grow: 1;
+        }
+        .place-card h3 {
+            font-size: 18px;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .place-card p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .place-card .location {
+            color: #666;
+            margin-top: 5px;
+        }
+        .place-card .price {
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+        }
+        .place-card .description {
+            color: #555;
+            margin: 10px 0;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            text-overflow: ellipsis;
+            height: 2.6em;
+        }
+        .place-card a {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .place-card a:hover {
+            background-color: #0056b3;
+        }
+        .view-more {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .view-more a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .view-more a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Places in Addis Ababa</div>
+        <div>
+            <a href="{% url 'places:index' %}">Home</a>
+            <a href="{% url 'places:place_new' %}">Add Place</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'users:register' %}">Register</a>
+                <a href="{% url 'users:login' %}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="left-column">
+            <h3>Search</h3>
+            <form method="get" action="{% url 'places:index' %}">
+                <input type="text" name="query" placeholder="Search by name..." value="{{ request.GET.query }}" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ddd;">
+                <input type="submit" value="Search" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px;">
+            </form>
+        </div>
+        <div class="right-column">
+            <h2>Top 10 Newest Places</h2>
+            <div class="place-container">
+                {% if places %}
+                    {% for place in places %}
+                        <div class="place-card">
+                            {% if place.picture %}
+                                <img src="{{ place.picture.url }}" alt="{{ place.name }}">
+                            {% else %}
+                                <div style="height: 200px; width: 100%; display: flex; align-items: center; justify-content: center; background-color: #e0e0e0; border-radius: 8px;">
+                                    <span>No Image Available</span>
+                                </div>
+                            {% endif %}
+                            <div class="content">
+                                <h3>{{ place.name }}</h3>
+                                <p class="location">{{ place.location }}</p>
+                                <p class="price">birr{{ place.price }}</p>
+                                <p class="description">{{ place.description }}</p>
+                                <a href="{% url 'places:place_detail' place.pk %}">View Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No places found matching your search criteria.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </body>
