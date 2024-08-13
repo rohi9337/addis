@@ -24,9 +24,10 @@ SECRET_KEY = 'django-insecure-$f0my3b7q$@)(fu+chbgu#p_x9n_oi1xcp^5-27gi*x9y566u7
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'places-app.onrender.com', 'users.onrender.com'
+]
 
 
 # Application definition
