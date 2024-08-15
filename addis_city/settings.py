@@ -15,19 +15,22 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+import dj_database_url
+import os
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$f0my3b7q$@)(fu+chbgu#p_x9n_oi1xcp^5-27gi*x9y566u7'
+# SECRET_KEY = 'django-insecure-$f0my3b7q$@)(fu+chbgu#p_x9n_oi1xcp^5-27gi*x9y566u7'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = [ 'places-app.onrender.com', 'users.onrender.com'
-]
+
+
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split()
 
 
 # Application definition
@@ -83,8 +86,10 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-
+DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+#postgresql://addis_city_user:2IMIrhLBmk4yTnHVXVSM1FR6vvXirEwn@dpg-cquqc82j1k6c73djs1e0-a.oregon-postgres.render.com/addis_city
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -118,7 +123,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-import os
+
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
