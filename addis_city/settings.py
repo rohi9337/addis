@@ -30,11 +30,13 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 
 
-# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
-ALLOWED_HOSTS = ['addis-city.onrender.com'] 
+#ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+allowed_hosts = os.environ.get("ALLOWED_HOSTS", "")
+ALLOWED_HOSTS = allowed_hosts.split() if allowed_hosts else []
 
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
