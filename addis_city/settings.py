@@ -30,7 +30,7 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split()
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -86,9 +86,12 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASE_URL = os.environ.get('DATABASE_URL')
+#DATABASE_URL = os.environ.get('DATABASE_URL')
 
-DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+DATABASES['default'] = dj_database_url.parse(
+    "postgresql://addis_city_user:2IMIrhLBmk4yTnHVXVSM1FR6vvXirEwn@dpg-cquqc82j1k6c73djs1e0-a.oregon-postgres.render.com/addis_city",
+    conn_max_age=600,
+)#postgresql://addis_city_user:2IMIrhLBmk4yTnHVXVSM1FR6vvXirEwn@dpg-cquqc82j1k6c73djs1e0-a.oregon-postgres.render.com/addis_city
 #postgresql://addis_city_user:2IMIrhLBmk4yTnHVXVSM1FR6vvXirEwn@dpg-cquqc82j1k6c73djs1e0-a.oregon-postgres.render.com/addis_city
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
